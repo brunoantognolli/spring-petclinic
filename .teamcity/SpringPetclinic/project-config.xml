@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="edd6e531-8885-4d29-971e-e9b76ef030a5" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2021.1/project-config.xsd">
+  <name>Spring Petclinic</name>
+  <parameters />
+  <project-extensions>
+    <extension id="AmazonWebServicesAws" type="OAuthProvider">
+      <parameters>
+        <param name="awsAccessKeyId" value="AKIA3TOTMGKZU474MDFH" />
+        <param name="awsCredentialsType" value="awsAccessKeys" />
+        <param name="awsIamRoleSessionName" value="TeamCity-session" />
+        <param name="awsRegionName" value="us-east-2" />
+        <param name="awsSessionCredentials" value="true" />
+        <param name="awsSessionDuration" value="60" />
+        <param name="awsStsEndpoint" value="https://sts.us-east-2.amazonaws.com" />
+        <param name="displayName" value="Amazon Web Services (AWS)" />
+        <param name="providerType" value="AWS" />
+        <param name="secure:awsSecretAccessKey" value="credentialsJSON:bfe5a947-4bed-4e1a-864c-743e86b50c73" />
+      </parameters>
+    </extension>
+    <extension id="PROJECT_EXT_2" type="IssueTracker">
+      <parameters>
+        <param name="authType" value="accesstoken" />
+        <param name="name" value="brunoantognolli/spring-petclinic" />
+        <param name="pattern" value="#(\d+)" />
+        <param name="repository" value="https://github.com/brunoantognolli/spring-petclinic" />
+        <param name="secure:accessToken" value="credentialsJSON:8f5a6495-f5ab-494a-ae8f-3b16974f4d24" />
+        <param name="secure:password" value="" />
+        <param name="tokenId" value="" />
+        <param name="type" value="GithubIssues" />
+        <param name="username" value="" />
+      </parameters>
+    </extension>
+    <extension id="PROJECT_EXT_3" type="versionedSettings">
+      <parameters>
+        <param name="buildSettings" value="ALWAYS_USE_CURRENT" />
+        <param name="credentialsStorageType" value="credentialsJSON" />
+        <param name="enabled" value="true" />
+        <param name="ignoreChangesInDependenciesAndVcsSettings" value="false" />
+        <param name="rootId" value="SpringPetclinic_HttpsGithubComBrunoantognolliSpringPetclinicRefsHeadsMain1" />
+        <param name="showChanges" value="false" />
+      </parameters>
+    </extension>
+  </project-extensions>
+  <cleanup />
+</project>
+

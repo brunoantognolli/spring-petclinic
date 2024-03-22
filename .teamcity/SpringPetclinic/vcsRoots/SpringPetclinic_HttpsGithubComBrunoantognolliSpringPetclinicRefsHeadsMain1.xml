@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vcs-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="ad7996d8-16a2-4a55-87fd-5fc9ecbb7de9" type="jetbrains.git" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2021.1/project-config.xsd">
+  <name>https://github.com/brunoantognolli/spring-petclinic#refs/heads/main (1)</name>
+  <param name="agentCleanFilesPolicy" value="ALL_UNTRACKED" />
+  <param name="agentCleanPolicy" value="ON_BRANCH_CHANGE" />
+  <param name="authMethod" value="PASSWORD" />
+  <param name="branch" value="refs/heads/main" />
+  <param name="ignoreKnownHosts" value="true" />
+  <param name="secure:password" value="credentialsJSON:de7e9f83-ea79-49f2-9f5a-b9499855a710" />
+  <param name="submoduleCheckout" value="CHECKOUT" />
+  <param name="teamcity:branchSpec" value="+:refs/heads/main" />
+  <param name="url" value="https://github.com/brunoantognolli/spring-petclinic" />
+  <param name="useAlternates" value="AUTO" />
+  <param name="username" value="brunoantognolli" />
+  <param name="usernameStyle" value="USERID" />
+</vcs-root>
+

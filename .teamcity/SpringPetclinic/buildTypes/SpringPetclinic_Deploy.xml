@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build-type xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uuid="196bdd3c-86bd-419a-883a-19a2a2d49da0" xsi:noNamespaceSchemaLocation="https://www.jetbrains.com/teamcity/schemas/2021.1/project-config.xsd">
+  <name>Deploy</name>
+  <description />
+  <settings>
+    <options>
+      <option name="artifactRules" value="target =&gt; target" />
+    </options>
+    <disabled-settings>
+      <setting-ref ref="deploy_beanstalk" />
+    </disabled-settings>
+    <parameters />
+    <build-runners>
+      <runner id="Command_Line" name="Command Line" type="simpleRunner">
+        <parameters>
+          <param name="script.content" value="aws s3 cp *.jar s3://noord/ --region us-east-2" />
+          <param name="teamcity.step.mode" value="default" />
+          <param name="use.custom.script" value="true" />
+        </parameters>
+      </runner>
+      <runner id="deploy_to_EC2" name="deploy to EC2" type="simpleRunner">
+        <parameters>
+          <param name="script.content"><![CDATA[aws ssm send-command \
+    --document-name "AWS-RunShellScript" \
+    --targets "Key=instanceids,Values=i-0e923b80d9327294e" \
+    --parameters 'commands=["aws s3 cp s3://noord/spring-petclinic-3.1.0-SNAPSHOT.jar /home/ec2-user/spring-petclinic-3.1.0-SNAPSHOT.jar","cd /home/ec2-user/ && docker-compose -f devops/docker-compose.yaml restart app"]' \
+    --comment "Copy spring-petclinic JAR from S3 and restart Docker Compose service app" \
+    --region us-east-1]]></param>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="use.custom.script" value="true" />
+        </parameters>
+      </runner>
+      <runner id="deploy_beanstalk" name="deploy beanstalk" type="simpleRunner">
+        <parameters>
+          <param name="script.content"><![CDATA[echo %FILE%
+
+aws s3 cp %teamcity.build.checkoutDir%\target\%FILE% s3://noord/%FILE%
+
+aws elasticbeanstalk create-application-version --application-name AppPetClinic --region us-east-2 --version-label %build.number% --source-bundle S3Bucket=noord, S3Key=%build.number%/%FILE%
+
+aws elasticbeanstalk update-environment --application-name AppPetClinic --environment-name AppPetclinic-env-1 --region us-east-2 --version-label %build.number%]]></param>
+          <param name="teamcity.step.mode" value="default" />
+          <param name="use.custom.script" value="true" />
+        </parameters>
+      </runner>
+    </build-runners>
+    <vcs-settings>
+      <vcs-entry-ref root-id="SpringPetclinic_HttpsGithubComBrunoantognolliSpringPetclinicRefsHeadsMain1" />
+    </vcs-settings>
+    <requirements />
+    <build-triggers />
+    <build-extensions>
+      <extension id="PROVIDE_AWS_CREDS" type="PROVIDE_AWS_CREDS">
+        <parameters>
+          <param name="awsConnectionId" value="AmazonWebServicesAws" />
+          <param name="awsSessionDuration" value="30" />
+        </parameters>
+      </extension>
+    </build-extensions>
+    <artifact-dependencies>
+      <dependency id="ARTIFACT_DEPENDENCY_2" sourceBuildTypeId="SpringPetclinic_Build" cleanDestination="false">
+        <revisionRule name="sameChainOrLastFinished" revision="latest.sameChainOrLastFinished" />
+        <artifact sourcePath="target/spring-petclinic*.jar" />
+      </dependency>
+    </artifact-dependencies>
+    <dependencies>
+      <depend-on sourceBuildTypeId="SpringPetclinic_Build">
+        <options>
+          <option name="run-build-if-dependency-failed" value="RUN_ADD_PROBLEM" />
+          <option name="take-started-build-with-same-revisions" value="true" />
+          <option name="take-successful-builds-only" value="true" />
+        </options>
+      </depend-on>
+    </dependencies>
+    <cleanup />
+  </settings>
+</build-type>
+
