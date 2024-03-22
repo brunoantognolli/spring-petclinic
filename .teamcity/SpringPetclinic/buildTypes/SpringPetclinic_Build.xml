@@ -73,6 +73,11 @@ bruno.antognolli@noordtechnologies.com]]></param>
           <param name="vcsRootId" value="SpringPetclinic_HttpsGithubComBrunoantognolliSpringPetclinicRefsHeadsMain1" />
         </parameters>
       </extension>
+      <extension id="parallelTests" type="parallelTests">
+        <parameters>
+          <param name="numberOfBatches" value="2" />
+        </parameters>
+      </extension>
     </build-extensions>
     <cleanup />
   </settings>
